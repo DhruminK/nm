@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_process_sym_helper.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 16:34:30 by dkhatri           #+#    #+#             */
+/*   Updated: 2023/05/08 17:36:57 by dkhatri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
 
 int	ft_strcmp_case(char *n1, char *n2)
@@ -54,6 +66,23 @@ int	ft_strncmp(char *n1, char *n2, size_t n)
 	return (0);
 }
 
+static int	ft_print_sym_type_caps2(t_nm_sym_type se, uint8_t is_caps)
+{
+	if (se == NM_ST_BSS_SECTION && !is_caps)
+		write(1, "b", 1);
+	else if (se == NM_ST_BSS_SECTION)
+		write(1, "B", 1);
+	else if (se == NM_ST_UNDEF_SECTION)
+		write(1, "U", 1);
+	else if (se == NM_ST_UNIQUE_SECTION)
+		write(1, "u", 1);
+	else if (se == NM_ST_WEAK_OBJ_SECTION && is_caps)
+		write(1, "V", 1);
+	else if (se == NM_ST_WEAK_OBJ_SECTION)
+		write(1, "v", 1);
+	return (1);
+}
+
 int	ft_print_sym_type_caps(t_nm_sym_type se, uint8_t is_caps)
 {
 	if (se == NM_ST_TEXT_SECTION && is_caps)
@@ -72,17 +101,5 @@ int	ft_print_sym_type_caps(t_nm_sym_type se, uint8_t is_caps)
 		write(1, "W", 1);
 	else if (se == NM_ST_WEAK_SECTION)
 		write(1, "w", 1);
-	else if (se == NM_ST_BSS_SECTION && !is_caps)
-		write(1, "b", 1);
-	else if (se == NM_ST_BSS_SECTION)
-		write(1, "B", 1);
-	else if (se == NM_ST_UNDEF_SECTION)
-		write(1, "U", 1);
-	else if (se == NM_ST_UNIQUE_SECTION)
-		write(1, "u", 1);
-	else if (se == NM_ST_WEAK_OBJ_SECTION && is_caps)
-		write(1, "V", 1);
-	else if (se == NM_ST_WEAK_OBJ_SECTION)
-		write(1, "v", 1);
-	return (1);
+	return (ft_print_sym_type_caps2(se, is_caps));
 }

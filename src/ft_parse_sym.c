@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse_sym.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 16:29:11 by dkhatri           #+#    #+#             */
+/*   Updated: 2023/05/08 16:29:49 by dkhatri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
-#include <stdio.h>
 
 static int	ft_find_sym_num(t_nm *nm, size_t *num_syms)
 {
@@ -8,13 +19,6 @@ static int	ft_find_sym_num(t_nm *nm, size_t *num_syms)
 	if (!nm || !num_syms)
 		return (-1);
 	*num_syms = 0;
-	/**
-	if (nm->sym_tab_info & SHDR_DYN_BIT)
-	{
-		shdr = (nm->shdr_tabs + SHDR_DYN);
-		*num_syms += (shdr->sh_size / shdr->sh_entsize);
-	}
-	*/
 	if (nm->sym_tab_info & SHDR_SYM_BIT)
 	{
 		shdr = (nm->shdr_tabs + SHDR_SYM);
@@ -91,15 +95,6 @@ int	ft_parse_sym_tabs(t_nm *nm)
 		return (-1);
 	offset = 0;
 	ret = 0;
-	/*
-	if (nm->sym_tab_info & SHDR_DYN_BIT)
-	{
-		ret = ft_parse_single_sym_tab(nm->shdr_tabs + SHDR_DYN, nm->syms,
-				nm->sym_name, nm);
-		offset += (nm->shdr_tabs[SHDR_DYN].sh_size
-				/ nm->shdr_tabs[SHDR_DYN].sh_entsize);
-	}
-	*/
 	if (ret > -1 && (nm->sym_tab_info & SHDR_SYM_BIT))
 		ret = ft_parse_single_sym_tab(nm->shdr_tabs + SHDR_SYM,
 				nm->syms + offset, nm->sym_name + offset, nm);

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse_words.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 16:29:54 by dkhatri           #+#    #+#             */
+/*   Updated: 2023/05/08 16:30:28 by dkhatri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
 
 void	ft_parse_elf_half(uint8_t *inp, uint16_t *half,
 			int is_little, off_t *addr)
 {
-	if (!inp || !half || !addr) 
+	if (!inp || !half || !addr)
 		return ;
 	ft_endian16(inp + *addr, half, is_little);
 	*addr = *addr + 2;

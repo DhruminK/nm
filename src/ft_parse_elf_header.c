@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse_elf_header.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 16:26:35 by dkhatri           #+#    #+#             */
+/*   Updated: 2023/05/08 16:27:03 by dkhatri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
 
 static int	ft_parse_elf_magic(uint8_t *addr, t_nm *nm)
@@ -52,9 +64,9 @@ int	ft_process_elf_header(t_nm *nm)
 	if (ret < 1)
 		return (ret - 1);
 	ft_parse_elf_ext_header(nm->file + EI_NIDENT, nm);
-	if (nm->elf_hdr.e_shoff > nm->file_size ||
-			nm->elf_hdr.e_shoff
-			+ (nm->elf_hdr.e_shentsize * nm->elf_hdr.e_shnum) > nm->file_size)
+	if (nm->elf_hdr.e_shoff > nm->file_size
+		|| nm->elf_hdr.e_shoff
+		+ (nm->elf_hdr.e_shentsize * nm->elf_hdr.e_shnum) > nm->file_size)
 		return (-1);
 	nm->shdr = malloc(nm->elf_hdr.e_shnum * sizeof(Elf64_Shdr));
 	ft_memset(nm->shdr, 0, sizeof(Elf64_Shdr));

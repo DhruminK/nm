@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strcmp_nm.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 16:36:18 by dkhatri           #+#    #+#             */
+/*   Updated: 2023/05/08 17:50:34 by dkhatri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
 
 static int	ft_is_alphanum(char n)
@@ -34,6 +46,20 @@ static int	ft_char_cmp(char n1, char n2)
 	return (n1 - n2);
 }
 
+static int	ft_sys_cmp_helper(char **n1, char **n2, size_t *num_skip)
+{
+	int	ret;
+
+	*n1 += ft_skip_non_alphanum(*n1, num_skip);
+	*n2 += ft_skip_non_alphanum(*n2, num_skip + 1);
+	ret = ft_char_cmp(**n1, **n2);
+	if (ret)
+		return (ret);
+	*n1 += 1;
+	*n2 += 1;
+	return (0);
+}
+
 int	ft_sys_cmp(char *arg1, char *arg2, int *ret)
 {
 	size_t	num_skip[2];
@@ -47,16 +73,8 @@ int	ft_sys_cmp(char *arg1, char *arg2, int *ret)
 	n1 = arg1;
 	n2 = arg2;
 	while (*arg1 && *arg2 && !*ret)
-	{
-		arg1 += ft_skip_non_alphanum(arg1, num_skip);
-		arg2 += ft_skip_non_alphanum(arg2, num_skip + 1);
-		*ret = ft_char_cmp(*arg1, *arg2);
-		if (*ret)
-			break ;
-		arg1 += 1;
-		arg2 += 1;
-	}
-	if (!*ret && (!*arg1 && *arg2) || (*arg1 && !*arg2))
+		*ret = ft_sys_cmp_helper(&arg1, &arg2, (size_t *)num_skip);
+	if (!*ret && ((!*arg1 && *arg2) || (*arg1 && !*arg2)))
 		*ret = (*arg1 - *arg2);
 	if (*ret)
 		return (0);

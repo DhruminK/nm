@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse_section_header.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 16:27:24 by dkhatri           #+#    #+#             */
+/*   Updated: 2023/05/08 16:29:06 by dkhatri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
 
 int	ft_extract_single_shdr(uint8_t *inp, t_nm *nm, Elf64_Shdr *shdr)
@@ -22,8 +34,8 @@ int	ft_extract_single_shdr(uint8_t *inp, t_nm *nm, Elf64_Shdr *shdr)
 
 static int	ft_validate_elf_shdr(t_nm *nm, Elf64_Shdr *shdr, uint8_t b)
 {
-	if (shdr->sh_offset > nm->file_size ||
-			shdr->sh_offset + shdr->sh_size > nm->file_size)
+	if (shdr->sh_offset > nm->file_size
+		|| shdr->sh_offset + shdr->sh_size > nm->file_size)
 		return (-1);
 	ft_memcpy(nm->shdr_tabs + b, shdr, sizeof(Elf64_Shdr));
 	nm->tabs[b] = nm->file + shdr->sh_offset;
@@ -48,7 +60,7 @@ static int	ft_parse_single_elf_shdr(t_nm *nm, Elf64_Shdr *shdr, uint16_t index)
 	char		*str;
 
 	sh_off = (nm->elf_hdr.e_shoff);
-	offset = (index *nm->elf_hdr.e_shentsize);
+	offset = (index * nm->elf_hdr.e_shentsize);
 	ft_extract_single_shdr(nm->file + sh_off + offset, nm, shdr);
 	str = (char *)(nm->tabs[SHDR_SSTR] + shdr->sh_name);
 	b = 0;
@@ -75,7 +87,7 @@ int	ft_process_elf_shdr(t_nm *nm)
 		return (-1);
 	nm->sym_tab_info = 0;
 	ft_parse_single_elf_shdr(nm, nm->shdr + nm->elf_hdr.e_shstrndx,
-			nm->elf_hdr.e_shstrndx);
+		nm->elf_hdr.e_shstrndx);
 	if (!(nm->sym_tab_info & SHDR_SSTR_BIT))
 		return (-1);
 	i = 0;
@@ -86,9 +98,12 @@ int	ft_process_elf_shdr(t_nm *nm)
 		if (ft_parse_single_elf_shdr(nm, nm->shdr + i - 1, i - 1) == -1)
 			return (-1);
 	}
-	if (((nm->sym_tab_info & SHDR_SYM_BIT) && !(nm->sym_tab_info & SHDR_SYM_STR_BIT))
-		|| ((nm->sym_tab_info & SHDR_DYN_BIT) && !(nm->sym_tab_info & SHDR_DYN_STR_BIT))
-		|| (!(nm->sym_tab_info & SHDR_SYM_BIT) && !(nm->sym_tab_info & SHDR_DYN_BIT)))
+	if (((nm->sym_tab_info & SHDR_SYM_BIT)
+			&& !(nm->sym_tab_info & SHDR_SYM_STR_BIT))
+		|| ((nm->sym_tab_info & SHDR_DYN_BIT)
+			&& !(nm->sym_tab_info & SHDR_DYN_STR_BIT))
+		|| (!(nm->sym_tab_info & SHDR_SYM_BIT)
+			&& !(nm->sym_tab_info & SHDR_DYN_BIT)))
 		return (-1);
 	return (0);
 }

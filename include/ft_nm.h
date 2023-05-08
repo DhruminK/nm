@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_nm.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 16:25:18 by dkhatri           #+#    #+#             */
+/*   Updated: 2023/05/08 16:26:12 by dkhatri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_NM_H
 # define FT_NM_H
 
@@ -71,11 +83,16 @@ void				ft_endian16(uint8_t *addr, uint16_t *out, int is_little);
 void				ft_endian32(uint8_t *addr, uint32_t *out, int is_little);
 void				ft_endian64(uint8_t *addr, uint64_t *out, int is_little);
 
-void				ft_parse_elf_half(uint8_t *inp, uint16_t *half, int is_little, off_t *addr);
-void				ft_parse_elf_word(uint8_t *inp, uint32_t *word, int is_little, off_t *addr);
-void				ft_parse_elf_offset(uint8_t *inp, uint64_t *off, t_nm *nm, off_t *addr);
-void				ft_parse_shdr_xword(uint8_t *inp, uint64_t *off, t_nm *nm, off_t *addr);
-off_t				ft_parse_sym_section(uint8_t *inp, uint64_t *off, Elf64_Shdr *shdr, t_nm *nm);
+void				ft_parse_elf_half(uint8_t *inp, uint16_t *half,
+						int is_little, off_t *addr);
+void				ft_parse_elf_word(uint8_t *inp, uint32_t *word,
+						int is_little, off_t *addr);
+void				ft_parse_elf_offset(uint8_t *inp, uint64_t *off,
+						t_nm *nm, off_t *addr);
+void				ft_parse_shdr_xword(uint8_t *inp, uint64_t *off,
+						t_nm *nm, off_t *addr);
+off_t				ft_parse_sym_section(uint8_t *inp, uint64_t *off,
+						Elf64_Shdr *shdr, t_nm *nm);
 
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *str, int fd);
@@ -101,7 +118,8 @@ int					ft_process_elf_header(t_nm *nm);
 int					ft_process_elf_shdr(t_nm *nm);
 int					ft_parse_sym_tabs(t_nm *nm);
 int					ft_sys_cmp(char *arg1, char *arg2, int *ret);
-void				ft_sort_syms(Elf64_Sym *sym, char **sym_name, size_t num_syms, t_nm *nm);
+void				ft_sort_syms(Elf64_Sym *sym, char **sym_name,
+						size_t num_syms, t_nm *nm);
 int					ft_process_syms(t_nm *nm);
 
 #endif

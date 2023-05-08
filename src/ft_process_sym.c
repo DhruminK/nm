@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_process_sym.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/08 16:31:12 by dkhatri           #+#    #+#             */
+/*   Updated: 2023/05/08 16:40:13 by dkhatri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
 
-static int	ft_print_diff_elf_section(Elf64_Shdr *shdr, Elf64_Sym *sym, char *name, t_nm *nm)
+static int	ft_print_diff_elf_section(Elf64_Shdr *shdr, Elf64_Sym *sym,
+		char *name, t_nm *nm)
 {
 	char		*s_name;
 	uint8_t		st_type;
@@ -12,19 +25,20 @@ static int	ft_print_diff_elf_section(Elf64_Shdr *shdr, Elf64_Sym *sym, char *nam
 	st_bind = sym->st_info >> 4;
 	st_type = sym->st_info & 0xF;
 	s_name = nm->tabs[SHDR_SSTR] + (shdr->sh_name);
-	ret = !ft_strcmp(s_name, ".text") || !ft_strcmp(s_name, ".fini")
-			|| !ft_strcmp(s_name, ".init");
-	if (ret)
-		return (ft_print_sym_type_caps(NM_ST_TEXT_SECTION, st_bind == STB_GLOBAL));
+	if (!ft_strcmp(s_name, ".text") || !ft_strcmp(s_name, ".fini")
+		|| !ft_strcmp(s_name, ".init"))
+		return (ft_print_sym_type_caps(NM_ST_TEXT_SECTION,
+				st_bind == STB_GLOBAL));
 	if (!ft_strcmp(s_name, ".bss"))
-		return (ft_print_sym_type_caps(NM_ST_BSS_SECTION, st_bind == STB_GLOBAL));
-	ret = (shdr->sh_flags & SHF_ALLOC) && !(shdr->sh_flags & ~(SHF_ALLOC));
-	if (ret)
-		return (ft_print_sym_type_caps(NM_ST_RO_DATA_SECTION, st_bind == STB_GLOBAL));
-	ret = (shdr->sh_flags & (SHF_WRITE | SHF_ALLOC))
-		&& !(shdr->sh_flags & ~(SHF_WRITE | SHF_ALLOC));
-	if (ret)
-		return (ft_print_sym_type_caps(NM_ST_INIT_DATA_SECTION, st_bind == STB_GLOBAL));
+		return (ft_print_sym_type_caps(NM_ST_BSS_SECTION,
+				st_bind == STB_GLOBAL));
+	if ((shdr->sh_flags & SHF_ALLOC) && !(shdr->sh_flags & ~(SHF_ALLOC)))
+		return (ft_print_sym_type_caps(NM_ST_RO_DATA_SECTION,
+				st_bind == STB_GLOBAL));
+	if ((shdr->sh_flags & (SHF_WRITE | SHF_ALLOC))
+		&& !(shdr->sh_flags & ~(SHF_WRITE | SHF_ALLOC)))
+		return (ft_print_sym_type_caps(NM_ST_INIT_DATA_SECTION,
+				st_bind == STB_GLOBAL));
 	return (0);
 }
 
@@ -116,7 +130,7 @@ int	ft_process_syms(t_nm *nm)
 	{
 		st_bind = nm->syms[i].st_info >> 4;
 		st_type = nm->syms[i].st_info & 0xF;
-		if (st_type != STT_FILE && nm->sym_name[i][0])// && ft_find_dup(nm, i) < 1)
+		if (st_type != STT_FILE && nm->sym_name[i][0])
 			ft_print_single_syms(nm, nm->syms + i, nm->sym_name[i]);
 		i += 1;
 	}
