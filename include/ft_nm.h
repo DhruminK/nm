@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:25:18 by dkhatri           #+#    #+#             */
-/*   Updated: 2023/05/08 16:26:12 by dkhatri          ###   ########.fr       */
+/*   Updated: 2023/05/09 16:29:08 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int					ft_process_elf_shdr(t_nm *nm);
 int					ft_parse_sym_tabs(t_nm *nm);
 int					ft_sys_cmp(char *arg1, char *arg2, int *ret);
 void				ft_sort_syms(Elf64_Sym *sym, char **sym_name,
-						size_t num_syms, t_nm *nm);
+						size_t num_syms);
 int					ft_process_syms(t_nm *nm);
 
 #endif

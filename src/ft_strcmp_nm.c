@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:36:18 by dkhatri           #+#    #+#             */
-/*   Updated: 2023/05/08 17:50:34 by dkhatri          ###   ########.fr       */
+/*   Updated: 2023/05/09 16:30:29 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,11 @@ static int	ft_sys_cmp_helper(char **n1, char **n2, size_t *num_skip)
 int	ft_sys_cmp(char *arg1, char *arg2, int *ret)
 {
 	size_t	num_skip[2];
-	char	*n1;
-	char	*n2;
 
 	if (!arg1 || !arg2 || !ret)
 		return (-1);
 	ft_memset(num_skip, 0, sizeof(size_t) * 2);
 	*ret = 0;
-	n1 = arg1;
-	n2 = arg2;
 	while (*arg1 && *arg2 && !*ret)
 		*ret = ft_sys_cmp_helper(&arg1, &arg2, (size_t *)num_skip);
 	if (!*ret && ((!*arg1 && *arg2) || (*arg1 && !*arg2)))

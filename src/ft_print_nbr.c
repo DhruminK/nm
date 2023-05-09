@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:30:49 by dkhatri           #+#    #+#             */
-/*   Updated: 2023/05/08 16:30:49 by dkhatri          ###   ########.fr       */
+/*   Updated: 2023/05/09 16:24:33 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	ft_print_hex_prefix(size_t nbr, uint8_t is_prefix,
 {
 	size_t	i;
 	size_t	j;
-	char	c;
 
 	if (is_prefix && nbr)
 		write(fd, "0x", fd);

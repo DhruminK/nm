@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:31:12 by dkhatri           #+#    #+#             */
-/*   Updated: 2023/05/08 16:40:13 by dkhatri          ###   ########.fr       */
+/*   Updated: 2023/05/09 16:29:51 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,12 @@ static int	ft_print_diff_elf_section(Elf64_Shdr *shdr, Elf64_Sym *sym,
 		char *name, t_nm *nm)
 {
 	char		*s_name;
-	uint8_t		st_type;
 	uint8_t		st_bind;
-	uint32_t	ret;
 
 	if (!shdr || !sym || !name)
 		return (-1);
 	st_bind = sym->st_info >> 4;
-	st_type = sym->st_info & 0xF;
-	s_name = nm->tabs[SHDR_SSTR] + (shdr->sh_name);
+	s_name = (char *)nm->tabs[SHDR_SSTR] + (shdr->sh_name);
 	if (!ft_strcmp(s_name, ".text") || !ft_strcmp(s_name, ".fini")
 		|| !ft_strcmp(s_name, ".init"))
 		return (ft_print_sym_type_caps(NM_ST_TEXT_SECTION,
@@ -44,7 +41,6 @@ static int	ft_print_diff_elf_section(Elf64_Shdr *shdr, Elf64_Sym *sym,
 
 static void	ft_print_sym_type(Elf64_Sym *sym, char *name, t_nm *nm)
 {
-	Elf64_Shdr	*shdr;
 	uint8_t		st_type;
 	uint8_t		st_bind;
 	int			ret;
@@ -114,11 +110,10 @@ int	ft_process_syms(t_nm *nm)
 {
 	size_t	i;
 	uint8_t	st_type;
-	uint8_t	st_bind;
 
 	if (!nm || !nm->file || !nm->shdr)
 		return (-1);
-	ft_sort_syms(nm->syms, nm->sym_name, nm->num_syms, nm);
+	ft_sort_syms(nm->syms, nm->sym_name, nm->num_syms);
 	if (nm->is_multi_file)
 	{
 		ft_putchar_fd('\n', 1);
@@ -128,7 +123,6 @@ int	ft_process_syms(t_nm *nm)
 	i = 0;
 	while (i < nm->num_syms)
 	{
-		st_bind = nm->syms[i].st_info >> 4;
 		st_type = nm->syms[i].st_info & 0xF;
 		if (st_type != STT_FILE && nm->sym_name[i][0])
 			ft_print_single_syms(nm, nm->syms + i, nm->sym_name[i]);

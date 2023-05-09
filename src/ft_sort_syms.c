@@ -6,7 +6,7 @@
 /*   By: dkhatri <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:35:34 by dkhatri           #+#    #+#             */
-/*   Updated: 2023/05/08 18:04:56 by dkhatri          ###   ########.fr       */
+/*   Updated: 2023/05/09 16:28:57 by dkhatri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static void	ft_sym_swap(Elf64_Sym *sym1, char **sn1,
 	*sn2 = tmp;
 }
 
-void	ft_sort_syms(Elf64_Sym *syms, char **sym_names,
-		size_t num_syms, t_nm *nm)
+void	ft_sort_syms(Elf64_Sym *syms, char **sym_names, size_t num_syms)
 {
 	size_t	i;
 	size_t	j;
